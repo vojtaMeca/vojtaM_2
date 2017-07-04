@@ -7,14 +7,25 @@ import java.util.Set;
 public class User {
     private int id;
     private String name;
+    private String access_token;
+    private String gender;
+    private String profile_picture_URL;
+
     private Set<Activity> activities;
 
     public User() {
 
     }
 
-    public User(String name) {
+    public User(String name, String gender, String profile_picture_URL) {
         this.name = name;
+        this.gender = gender;
+        this.profile_picture_URL = profile_picture_URL;
+    }
+
+    public User(String name, String access_token){
+        this.name = name;
+        this.access_token = access_token;
     }
 
     public User(String name, Set<Activity> activities){
@@ -50,6 +61,8 @@ public class User {
         this.activities = activities;
     }
 
+
+
     @Override
     public String toString() {
         String result = String.format(
@@ -64,5 +77,29 @@ public class User {
         }
 
         return result;
+    }
+
+    public String getAccess_token() {
+        return access_token;
+    }
+
+    public void setAccess_token(String access_token) {
+        this.access_token = access_token;
+    }
+
+    public String getGender() {
+        return gender;
+    }
+
+    public void setGender(String gender) {
+        this.gender = gender;
+    }
+
+    public String getProfile_picture_URL() {
+        return profile_picture_URL;
+    }
+
+    public void setProfile_picture_URL(String profile_picture_URL) {
+        this.profile_picture_URL = profile_picture_URL;
     }
 }

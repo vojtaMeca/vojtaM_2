@@ -8,7 +8,10 @@ USE `jpa_manytomany`;
 DROP TABLE IF EXISTS `user`;
 CREATE TABLE `user` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  `name` varchar(255) ,
+  `name` varchar(255) DEFAULT NULL,
+  `access_token` varchar(255) DEFAULT NULL,
+  `gender` varchar(255) DEFAULT NULL,
+  `profile_picture_URL` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=utf8;
 
@@ -19,7 +22,7 @@ CREATE TABLE `user` (
 DROP TABLE IF EXISTS `activity`;
 CREATE TABLE `activity` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  `title` varchar(255) ,
+  `title` varchar(255) DEFAULT NULL,
   `kind` varchar(255) DEFAULT NULL,
   `url_on_googleplus` varchar(255) DEFAULT NULL,
   `number_of_replies` int(10) DEFAULT NULL,
