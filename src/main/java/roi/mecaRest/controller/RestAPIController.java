@@ -1,13 +1,9 @@
 package roi.mecaRest.controller;
 
-/**
- * Created by Vojtech on 4.7.2017.
- */
-
-import roi.mecaRest.model.Book;
-import roi.mecaRest.model.Publisher;
-import roi.mecaRest.repository.BookRepository;
-import roi.mecaRest.repository.PublisherRepository;
+import roi.mecaRest.model.Activity;
+import roi.mecaRest.model.User;
+import roi.mecaRest.repository.UserRepository;
+import roi.mecaRest.repository.ActivityRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.HashSet;
@@ -25,44 +21,44 @@ public class RestAPIController {
     private final AtomicLong counter = new AtomicLong();
 
     @Autowired
-    private BookRepository bookRepository;
+    private UserRepository userRepository;
 
     @Autowired
-    private PublisherRepository publisherRepository;
+    private ActivityRepository activityRepository;
 
     @RequestMapping(method = RequestMethod.GET, value = "/initDB")
     public void init() {
         // save a couple of books
-        Publisher publisherA = new Publisher("Publisher A");
-        Publisher publisherB = new Publisher("Publisher B");
-        Publisher publisherC = new Publisher("Publisher C");
+        Activity activityA = new Activity("Activity A");
+        Activity activityB = new Activity("Activity B");
+        Activity activityC = new Activity("Activity C");
 
-        bookRepository.save(new HashSet<Book>(){{
-            add(new Book("Book A", new HashSet<Publisher>(){{
-                add(publisherA);
-                add(publisherB);
+        userRepository.save(new HashSet<User>(){{
+            add(new User("User A", new HashSet<Activity>(){{
+                add(activityA);
+                add(activityB);
             }}));
 
-            add(new Book("Book B", new HashSet<Publisher>(){{
-                add(publisherA);
-                add(publisherC);
+            add(new User("User B", new HashSet<Activity>(){{
+                add(activityA);
+                add(activityC);
             }}));
         }});
 
 
         // save a couple of publishers
-        Book bookA = new Book("Book A");
-        Book bookB = new Book("Book B");
+        User userA = new User("User A");
+        User userB = new User("User B");
 
-        publisherRepository.save(new HashSet<Publisher>() {{
-            add(new Publisher("Publisher A", new HashSet<Book>() {{
-                add(bookA);
-                add(bookB);
+        activityRepository.save(new HashSet<Activity>() {{
+            add(new Activity("Activity A", new HashSet<User>() {{
+                add(userA);
+                add(userB);
             }}));
 
-            add(new Publisher("Publisher B", new HashSet<Book>() {{
-                add(bookA);
-                add(bookB);
+            add(new Activity("Activity B", new HashSet<User>() {{
+                add(userA);
+                add(userB);
             }}));
         }});
 

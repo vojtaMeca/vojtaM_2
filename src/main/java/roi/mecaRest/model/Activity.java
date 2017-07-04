@@ -4,22 +4,22 @@ import javax.persistence.*;
 import java.util.Set;
 
 @Entity
-public class Publisher {
+public class Activity {
     private int id;
     private String name;
-    private Set<Book> books;
+    private Set<User> users;
 
-    public Publisher(){
+    public Activity(){
 
     }
 
-    public Publisher(String name){
+    public Activity(String name){
         this.name = name;
     }
 
-    public Publisher(String name, Set<Book> books){
+    public Activity(String name, Set<User> users){
         this.name = name;
-        this.books = books;
+        this.users = users;
     }
 
     @Id
@@ -40,12 +40,12 @@ public class Publisher {
         this.name = name;
     }
 
-    @ManyToMany(mappedBy = "publishers")
-    public Set<Book> getBooks() {
-        return books;
+    @ManyToMany(mappedBy = "activities")
+    public Set<User> getUsers() {
+        return users;
     }
 
-    public void setBooks(Set<Book> books) {
-        this.books = books;
+    public void setUsers(Set<User> users) {
+        this.users = users;
     }
 }
