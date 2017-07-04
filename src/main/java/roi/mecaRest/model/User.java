@@ -59,7 +59,7 @@ public class User {
             for(Activity activity : activities) {
                 result += String.format(
                         "Activity[id=%d, name='%s']%n",
-                        activity.getId(), activity.getName());
+                        activity.getId(), activity.getTitle());
             }
         }
 

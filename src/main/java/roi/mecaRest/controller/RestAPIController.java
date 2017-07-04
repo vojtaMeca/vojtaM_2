@@ -29,9 +29,9 @@ public class RestAPIController {
     @RequestMapping(method = RequestMethod.GET, value = "/initDB")
     public void init() {
         // save a couple of books
-        Activity activityA = new Activity("Activity A");
-        Activity activityB = new Activity("Activity B");
-        Activity activityC = new Activity("Activity C");
+        Activity activityA = new Activity("Activity A","adventure" , 9 ,5 ,"uri1" );
+        Activity activityB = new Activity("Activity B","adventure" , 4 ,6 ,"uri2" );
+        Activity activityC = new Activity("Activity C","adventure" , 5 ,4 ,"uri3" );
 
         userRepository.save(new HashSet<User>(){{
             add(new User("User A", new HashSet<Activity>(){{

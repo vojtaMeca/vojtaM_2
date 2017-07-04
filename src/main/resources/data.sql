@@ -19,7 +19,11 @@ CREATE TABLE `user` (
 DROP TABLE IF EXISTS `activity`;
 CREATE TABLE `activity` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  `name` varchar(255) ,
+  `title` varchar(255) ,
+  `kind` varchar(255) DEFAULT NULL,
+  `url_on_googleplus` varchar(255) DEFAULT NULL,
+  `number_of_replies` int(10) DEFAULT NULL,
+  `number_of_pluseners` int(10) DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=19 DEFAULT CHARSET=utf8;
 
