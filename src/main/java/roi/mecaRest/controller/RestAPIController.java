@@ -6,7 +6,10 @@ import roi.mecaRest.repository.UserRepository;
 import roi.mecaRest.repository.ActivityRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import java.util.Collection;
 import java.util.HashSet;
+import java.util.Optional;
+import java.util.Set;
 import java.util.concurrent.atomic.AtomicLong;
 
 import org.springframework.web.bind.annotation.*;
@@ -16,9 +19,6 @@ import org.springframework.web.bind.annotation.*;
  */
 @RestController
 public class RestAPIController {
-
-    private static final String template = "Name: %s!";
-    private final AtomicLong counter = new AtomicLong();
 
     @Autowired
     private UserRepository userRepository;
@@ -51,63 +51,78 @@ public class RestAPIController {
             add(user1);
             add(user2);
         }});
+        /*
+        Activity activityA2 = new Activity("Title1","public",3,5,"uri1");
+        Activity activityB2 = new Activity("Title2","public",4,1,"uri2");
+        Activity activityC2 = new Activity("Title3","private",5,3,"uri3");
 
-        activityA.setUsers(
+        User user1b = new User("Vojta","male","UriPicture1");
+        User user2b = new User("Maruska","female","UriPicture2");
+        activityA2.setUsers(
                 new HashSet<User>(){{
-                    add(user1);
-                    add(user2);
+                    add(user1b);
+                    add(user2b);
                 }}
         );
 
-        activityB.setUsers(
+        activityB2.setUsers(
                 new HashSet<User>(){{
-                    add(user1);
+                    add(user1b);
                 }}
         );
 
-        activityC.setUsers(
+        activityC2.setUsers(
                 new HashSet<User>(){{
-                    add(user2);
+                    add(user2b);
                 }}
         );
 
         activityRepository.save(
                 new HashSet<Activity>(){{
-                    add(activityA);
-                    add(activityB);
-                    add(activityC);
+                    add(activityA2);
+                    add(activityB2);
+                    add(activityC2);
                 }}
         );
+        */
         return "200 ok: initialize of database was run OK!";
     }
 
-
-    @RequestMapping(method = RequestMethod.GET, value = "/users")
-    public User greeting(@RequestParam(value="name", defaultValue="Vojtěch") String name) {
-        return new User(
-                String.format(template, name),
-                "male",
-                "urlExample");
-    }
-
-    @RequestMapping(method = RequestMethod.GET, value="/add") // Map ONLY GET Requests
-    public @ResponseBody
-    String addNewUser (@RequestParam String name
-            , @RequestParam String gender
-            , @RequestParam String url) {
-        // @ResponseBody means the returned String is the response, not a view name
-        // @RequestParam means it is a parameter from the GET or POST request
-
-        User n = new User(name,gender,url);
-        userRepository.save(n);
-        return "Saved";
-    }
-
-    @RequestMapping(method = RequestMethod.GET, value="/allusers")
+    @RequestMapping(method = RequestMethod.GET, value="/users")
     public @ResponseBody Iterable<User> getAllUsers() {
         // This returns a JSON or XML with the users
         return userRepository.findAll();
     }
+
+    @RequestMapping(method = RequestMethod.DELETE, value = "/users/{user_google_id}")
+    public String deleteUserAndHisActivities(@PathVariable int user_google_id){
+        //todo zmen pak, ze se ma vyhledavat String google_id
+        Optional<User> deletedUser = userRepository.findByIdEquals(user_google_id);
+        if (deletedUser.isPresent()) {
+            Set<User> currentUser = new HashSet<User>(){{
+                add(deletedUser.get());
+            }};
+            Collection<Activity> activitiesOnDeleted = activityRepository.findActivitiesByUsers(currentUser);
+            for (Activity activity:
+                 activitiesOnDeleted) {
+                //pridej aktivitu, do mnoziny vsech aktivit, podle kterzch se pak bude vyhledavat, kolik ji sdili uzivatelu
+                Set<Activity> currentActivity = new HashSet<Activity>(){{
+                    add(activity);
+                }};
+
+                Collection<User> usersOfActivity = userRepository.findByActivities(currentActivity);
+                if(usersOfActivity.size() == 1){
+                    //smaz aktivitu, jelikoz je jedina prirazena k danemu uzivateli
+                    activityRepository.delete(activity);
+                }
+            }
+            userRepository.delete(deletedUser.get());
+
+        }
+
+        return "200 OK: User with user ID: " + user_google_id + " is successfully deleted!";
+    }
+
 
 }
 

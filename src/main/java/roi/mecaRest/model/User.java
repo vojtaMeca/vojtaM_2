@@ -1,16 +1,20 @@
 package roi.mecaRest.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import java.util.Set;
 
 @Entity
 public class User {
     private int id;
+    private String google_id;
     private String name;
     private String access_token;
     private String gender;
     private String profile_picture_URL;
 
+    @JsonIgnore
     private Set<Activity> activities;
 
     public User() {
@@ -23,8 +27,8 @@ public class User {
         this.profile_picture_URL = profile_picture_URL;
     }
 
-    public User(String name, String access_token){
-        this.name = name;
+    public User(String google_id, String access_token){
+        this.google_id = google_id;
         this.access_token = access_token;
     }
 
@@ -51,7 +55,7 @@ public class User {
         this.name = name;
     }
 
-    @ManyToMany(cascade = CascadeType.ALL)
+    @ManyToMany(cascade = {CascadeType.MERGE,CascadeType.REFRESH,CascadeType.PERSIST})
     @JoinTable(name = "user_activity", joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id"), inverseJoinColumns = @JoinColumn(name = "activity_id", referencedColumnName = "id"))
     public Set<Activity> getActivities() {
         return activities;
@@ -60,8 +64,6 @@ public class User {
     public void setActivities(Set<Activity> activities) {
         this.activities = activities;
     }
-
-
 
     @Override
     public String toString() {
@@ -102,4 +104,21 @@ public class User {
     public void setProfile_picture_URL(String profile_picture_URL) {
         this.profile_picture_URL = profile_picture_URL;
     }
+
+
+    public String getGoogle_id() {
+        return google_id;
+    }
+
+    public void setGoogle_id(String google_id) {
+        this.google_id = google_id;
+    }
+
+    @PreRemove
+    private void removeUsersFromActivities() {
+        for (Activity activity : activities) {
+            activity.getUsers().remove(this);
+        }
+    }
+
 }

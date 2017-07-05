@@ -1,5 +1,7 @@
 package roi.mecaRest.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import java.util.Set;
 
@@ -12,6 +14,7 @@ public class Activity {
     private Integer number_of_pluseners;
     private String url_on_googleplus;
 
+    @JsonIgnore
     private Set<User> users;
 
     public Activity(){
@@ -49,7 +52,8 @@ public class Activity {
         this.title = title;
     }
 
-    @ManyToMany(mappedBy = "activities")
+    @ManyToMany(cascade = {CascadeType.MERGE,CascadeType.REFRESH,CascadeType.PERSIST})
+    @JoinTable(name = "user_activity", joinColumns = @JoinColumn(name = "activity_id", referencedColumnName = "id"), inverseJoinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id"))
     public Set<User> getUsers() {
         return users;
     }
