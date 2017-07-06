@@ -51,40 +51,6 @@ public class RestAPIController {
             add(user1);
             add(user2);
         }});
-        /*
-        Activity activityA2 = new Activity("Title1","public",3,5,"uri1");
-        Activity activityB2 = new Activity("Title2","public",4,1,"uri2");
-        Activity activityC2 = new Activity("Title3","private",5,3,"uri3");
-
-        User user1b = new User("Vojta","male","UriPicture1");
-        User user2b = new User("Maruska","female","UriPicture2");
-        activityA2.setUsers(
-                new HashSet<User>(){{
-                    add(user1b);
-                    add(user2b);
-                }}
-        );
-
-        activityB2.setUsers(
-                new HashSet<User>(){{
-                    add(user1b);
-                }}
-        );
-
-        activityC2.setUsers(
-                new HashSet<User>(){{
-                    add(user2b);
-                }}
-        );
-
-        activityRepository.save(
-                new HashSet<Activity>(){{
-                    add(activityA2);
-                    add(activityB2);
-                    add(activityC2);
-                }}
-        );
-        */
         return "200 ok: initialize of database was run OK!";
     }
 

@@ -47,6 +47,6 @@ CREATE TABLE `user_activity` (
 
 
 -- SHOW TABLES ;
--- SELECT * FROM user;
--- SELECT * FROM activity;
--- SELECT * FROM user_activity;
+SELECT * FROM user;
+ SELECT * FROM activity;
+ SELECT * FROM user_activity;

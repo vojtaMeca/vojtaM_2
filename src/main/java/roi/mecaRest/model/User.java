@@ -14,7 +14,7 @@ public class User {
     private String gender;
     private String profile_picture_URL;
 
-    @JsonIgnore
+    //@JsonIgnore
     private Set<Activity> activities;
 
     public User() {
